@@ -1,0 +1,10 @@
+<h3>HTMX is working!</h3>
+<p>This content was loaded dynamically via HTMX.</p>
+<p>Timestamp: {{ timestamp }}</p>
+
+<button 
+    hx-get="{% url 'core:htmx_demo' %}"
+    hx-target="#demo-content"
+    hx-swap="innerHTML">
+    Refresh
+</button>

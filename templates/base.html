@@ -1,0 +1,41 @@
+{% load static django_htmx %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ project_name|default:"Django HTMX Starter" }}{% endblock %}</title>
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+    {% htmx_script %}
+    {% block extra_head %}{% endblock %}
+</head>
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+    <header class="header">
+        <div class="header-brand">
+            <a href="{% url 'core:home' %}">{{ project_name|default:"Django HTMX Starter" }}</a>
+        </div>
+        <nav class="header-nav">
+            {% if user.is_authenticated %}
+                <span class="text-muted">{{ user.email }}</span>
+                <a href="/accounts/logout/">Sign out</a>
+            {% elif social_auth_enabled %}
+                <a href="/accounts/google/login/">Sign in</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <p class="message message-{{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+    
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

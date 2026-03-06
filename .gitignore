@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+ENV/
+
+# Django
+db.sqlite3
+*.log
+
+# Environment
+.env
+
+# Node
+node_modules/
+
+# Build artifacts
+static/css/tailwind.css
+bin/tailwindcss
+
+# Reference libraries (cloned on demand)
+.read-only/
+
+# macOS
+.DS_Store
+
+# Editor
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# Advanced mode flag
+.advanced-mode
+
+# dade
+.dade.pid

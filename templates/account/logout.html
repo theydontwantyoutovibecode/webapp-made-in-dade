@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}Sign Out - {{ project_name|default:"Django HTMX Starter" }}{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto py-16 text-center">
+    <h1 class="text-2xl font-bold text-gray-900 mb-4">Sign Out</h1>
+    <p class="text-gray-600 mb-8">Are you sure you want to sign out?</p>
+    
+    <form method="post" action="{% url 'account_logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+            Sign Out
+        </button>
+    </form>
+</div>
+{% endblock %}

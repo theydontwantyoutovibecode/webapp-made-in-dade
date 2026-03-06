@@ -1,0 +1,10 @@
+{
+  "name": "django-htmx-starter",
+  "version": "1.0.0",
+  "description": "Django + HTMX starter template",
+  "type": "module",
+  "scripts": {},
+  "keywords": ["django", "htmx"],
+  "author": "",
+  "license": "MIT"
+}

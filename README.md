@@ -1,0 +1,123 @@
+# web-app
+
+A Django web application template with HTMX for dynamic HTML interactions and vanilla CSS for styling. Created with [dade](https://github.com/theydontwantyoutovibecode/made-in-dade).
+
+## Prerequisites
+
+- Python 3.13+
+- [uv](https://docs.astral.sh/uv/) (Python package manager)
+
+Both are installed automatically by `setup.sh` if missing.
+
+## Project Structure
+
+```
+.
+├── apps/                      # Django applications
+│   └── core/                  # Default app
+│       ├── templates/core/    # App-specific templates
+│       ├── views.py
+│       ├── urls.py
+│       └── models.py
+├── config/                    # Django project configuration
+│   ├── settings/
+│   │   ├── base.py            # Shared settings
+│   │   ├── development.py     # Dev settings (DEBUG=True)
+│   │   └── production.py      # Production settings
+│   ├── urls.py                # Root URL configuration
+│   └── wsgi.py
+├── static/
+│   └── css/main.css           # Vanilla CSS
+├── templates/
+│   ├── base.html              # Base template with HTMX loaded
+│   └── _partial.html          # Example HTMX partial
+├── manage.py
+├── pyproject.toml             # Python dependencies (managed by uv)
+├── uv.lock
+├── start.sh                   # Legacy startup script
+├── setup.sh                   # First-run setup
+├── dade.toml             # Template manifest
+├── AGENTS.md                  # AI agent instructions
+└── .read-only/
+    └── manifest.txt           # Reference repos for AI context
+```
+
+## Usage
+
+### Development
+
+```bash
+dade dev
+```
+
+This runs:
+1. `uv sync --dev` to install Python dependencies
+2. `python manage.py migrate --no-input` to apply database migrations
+3. `python manage.py runserver 127.0.0.1:$PORT` to start the dev server
+
+The project is available at `https://<project-name>.<hostname>.local`.
+
+The `DJANGO_SETTINGS_MODULE` is set to `config.settings.development`.
+
+### Production
+
+```bash
+dade project start
+```
+
+This runs:
+1. `uv sync --extra prod` to install production dependencies
+2. `python manage.py migrate --no-input`
+3. `python manage.py collectstatic --no-input`
+4. `gunicorn config.wsgi:application --bind 0.0.0.0:$PORT --workers 4`
+
+The `DJANGO_SETTINGS_MODULE` is set to `config.settings.production`.
+
+### Sharing
+
+```bash
+dade share
+```
+
+Starts the dev server and creates a Cloudflare tunnel for public access. Requires `cloudflared`.
+
+The `[share]` section in `dade.toml` adds these environment variables automatically:
+- `DJANGO_EXTRA_ALLOWED_HOSTS=.trycloudflare.com`
+- `DJANGO_CSRF_TRUSTED_ORIGINS=https://*.trycloudflare.com`
+
+This allows Django to accept requests from the tunnel domain.
+
+### Build
+
+`dade build` is not applicable to this template. Django applications are not compiled.
+
+## Settings
+
+The settings are split across three files in `config/settings/`:
+
+- **base.py** — Shared configuration. Reads `SECRET_KEY`, `DATABASE_URL`, and other values from environment variables with sensible defaults.
+- **development.py** — Extends base. `DEBUG=True`, SQLite database, relaxed security settings.
+- **production.py** — Extends base. `DEBUG=False`, enforces HTTPS, requires `SECRET_KEY` to be set.
+
+## Environment Variables
+
+Copy `.env.example` to `.env` for local overrides. The dev settings read from `.env` automatically.
+
+## HTMX
+
+HTMX is loaded in `templates/base.html`. Dynamic interactions use HTMX attributes (`hx-get`, `hx-post`, `hx-swap`, etc.) to request HTML fragments from Django views.
+
+Partials are HTML snippets returned by views. See `templates/_partial.html` and `apps/core/templates/core/htmx_demo.html` for examples.
+
+## Reference Libraries
+
+The `.read-only/manifest.txt` file lists repositories that are shallow-cloned during `dade dev`:
+- django — Django framework source
+- htmx — HTMX library source
+- django-htmx — Django HTMX integration
+
+These provide AI coding agents with reference source code for the stack.
+
+## Ticket Tracking
+
+The `.tickets/` directory is used with the `tk` CLI for ticket-driven development. See `AGENTS.md` for the workflow.

@@ -1,0 +1,62 @@
+{% extends base_template %}
+
+{% block title %}Home - {{ project_name|default:"Django HTMX Starter" }}{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="max-w-2xl mx-auto py-8 px-4">
+    <h1 class="text-2xl font-bold text-gray-900 mb-2">Welcome, {{ user.email }}</h1>
+    <p class="text-gray-600 mb-8">You're signed in and ready to build something great.</p>
+
+    <h2 class="text-lg font-semibold text-gray-900 mb-4">Getting Started</h2>
+    <div class="space-y-3">
+        <div class="p-4 bg-white border border-gray-200 rounded-lg">
+            <h3 class="font-medium text-gray-900">Create Your First App</h3>
+            <p class="text-sm text-gray-500 mt-1">Run <code class="bg-gray-100 px-1 rounded">uv run python manage.py startapp myapp</code> to create a new Django app.</p>
+        </div>
+        <div class="p-4 bg-white border border-gray-200 rounded-lg">
+            <h3 class="font-medium text-gray-900">HTMX Demo</h3>
+            <p class="text-sm text-gray-500 mt-1 mb-3">Click the button to test HTMX integration:</p>
+            <div id="demo-content" class="p-3 bg-gray-50 rounded border border-gray-200 text-sm text-gray-600">
+                Click the button to load dynamic content...
+            </div>
+            <button 
+                hx-get="{% url 'core:htmx_demo' %}"
+                hx-target="#demo-content"
+                hx-swap="innerHTML"
+                class="mt-3 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">
+                Load HTMX Content
+            </button>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="max-w-md mx-auto py-16 text-center px-4">
+    <h1 class="text-2xl font-bold text-gray-900 mb-4">{{ project_name|default:"Django HTMX Starter" }}</h1>
+    <p class="text-gray-600 mb-8">A modern Django template with HTMX and TailwindCSS.</p>
+    {% if social_auth_enabled %}
+    <a href="/accounts/google/login/" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+        Sign in with Google
+    </a>
+    {% else %}
+    <div class="space-y-4">
+        <p class="text-sm text-gray-500">Authentication is not configured. See <code class="bg-gray-100 px-1 rounded">.env.example</code> to enable Google OAuth.</p>
+        <div class="p-4 bg-white border border-gray-200 rounded-lg text-left">
+            <h3 class="font-medium text-gray-900 mb-2">HTMX Demo</h3>
+            <p class="text-sm text-gray-500 mb-3">Test HTMX integration without authentication:</p>
+            <div id="demo-content" class="p-3 bg-gray-50 rounded border border-gray-200 text-sm text-gray-600">
+                Click the button to load dynamic content...
+            </div>
+            <button 
+                hx-get="{% url 'core:htmx_demo' %}"
+                hx-target="#demo-content"
+                hx-swap="innerHTML"
+                class="mt-3 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">
+                Load HTMX Content
+            </button>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endif %}
+{% endblock %}
