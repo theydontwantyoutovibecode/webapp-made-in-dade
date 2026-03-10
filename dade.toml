@@ -7,7 +7,7 @@ url = "https://github.com/theydontwantyoutovibecode/webapp-made-in-dade"
 aliases = ["webapp", "django"]
 
 [scaffold]
-exclude = [".git", "dade.toml", ".dade", "__pycache__", "*.pyc", ".venv", "db.sqlite3", "staticfiles", "node_modules", ".read-only"]
+exclude = [".git", "dade.toml", ".dade", "__pycache__", "*.pyc", ".venv", "db.sqlite3", "staticfiles", "node_modules", ".read-only", "tailwind.config.js"]
 setup = "./setup.sh"
 setup_interactive = true
 
@@ -20,6 +20,7 @@ default_port = 8000
 
 [dev]
 setup = ["uv sync --dev", "uv run python manage.py migrate --no-input"]
+background = ["tailwindcss -i static/css/input.css -o static/css/main.css --watch"]
 env = ["DJANGO_SETTINGS_MODULE=config.settings.development"]
 
 [share]
