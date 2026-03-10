@@ -161,6 +161,43 @@ The `.read-only/manifest.txt` file lists repositories that are shallow-cloned du
 
 These provide AI coding agents with reference source code for the stack.
 
+## Troubleshooting
+
+### SSL Certificate Errors
+
+If you see `SSL_ERROR_INTERNAL_ERROR_ALERT` or other SSL errors:
+
+1. **Run setup**: Ensure the HTTPS proxy is properly configured:
+   ```bash
+   dade setup
+   ```
+
+2. **Trust the CA certificate**: The setup process will prompt you to trust Caddy's local CA
+
+3. **Restart the proxy**: If issues persist:
+   ```bash
+   dade proxy restart
+   ```
+
+### Tailwind CSS Issues
+
+If Tailwind CSS doesn't compile automatically:
+
+1. **Check dependencies**: Ensure `tailwindcss` is installed:
+   ```bash
+   which tailwindcss
+   ```
+
+2. **Install if missing**:
+   ```bash
+   brew install tailwindcss
+   ```
+
+3. **Manual compilation**: Run Tailwind manually:
+   ```bash
+   tailwindcss -i static/css/input.css -o static/css/main.css --watch
+   ```
+
 ## Ticket Tracking
 
 The `.tickets/` directory is used with the `tk` CLI for ticket-driven development. See `AGENTS.md` for the workflow.
